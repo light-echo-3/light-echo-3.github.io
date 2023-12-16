@@ -157,3 +157,119 @@ https://stackoverflow.com/questions/17005654/error-while-loading-shared-librarie
 sudo ln -s /usr/lib/x86_64-linux-gnu/libncursesw.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5
 sudo ln -s /usr/lib/x86_64-linux-gnu/libncursesw.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5
 ```
+
+## 3.2 设置代码编译环境
+每次关闭 Shell 之后都需要重新执行下面这个脚本，相当于配置了一下编译环境
+```shell
+source build/envsetup.sh
+```
+或者
+```shell
+. build/envsetup.sh
+```
+
+## 3.3 选择编译目标
+
+```shell
+lunch
+```
+运行 lunch 之后，会有一堆设备出来让你选择，还是以我的 Pixel 3 XL 为例，其代号是 ，在这里可以查看所有机型对应的代号：https://source.android.google.cn/setup/build/running#selecting-device-build
+Pixel 4 对应的代号是：flame
+![图片](./img_compile_android/flame.png)
+所以我选择编译的是 aosp_flame-userdebug，  
+这里可以输入编号也可以直接输入 aosp_flame-userdebug。  
+![图片](./img_compile_android/lunch1.jpeg)
+然后脚本会进行一系列的配置，输出下面的内容
+![图片](./img_compile_android/lunch2.jpeg)
+
+
+或者lunch的时候，直接输入:
+```shell
+lunch aosp_flame-userdebug
+```
+
+## 3.4 全部编译
+使用 m 构建所有内容。m 可以使用 -jN 参数处理并行任务。如果您没有提供 -j 参数，构建系统会自动选择您认为最适合您系统的并行任务计数。
+
+```shell
+m
+```
+
+如上所述，您可以通过在 m 命令行中列出相应名称来构建特定模块，而不是构建完整的设备映像。此外，m 还针对各种特殊目的提供了一些伪目标。以下是一些示例：
+
+1. droid - m droid 是正常 build。此目标在此处，因为默认目标需要名称。
+1. all - m all 会构建 m droid 构建的所有内容，加上不包含 droid 标记的所有内容。构建服务器会运行此命令，以确保包含在树中且包含 Android.mk 文件的所有元素都会构建。
+1. m - 从树的顶部运行构建系统。这很有用，因为您可以在子目录中运行 make。如果您设置了 TOP 环境变量，它便会使用此变量。如果您未设置此变量，它便会从当前目录中查找相应的树，以尝试找到树的顶层。您可以通过运行不包含参数的 m 来构建整个源代码树，也可以通过指定相应名称来构建特定目标。
+1. mma - 构建当前目录中的所有模块及其依赖项。
+1. mmma - 构建提供的目录中的所有模块及其依赖项。
+1. croot - cd 到树顶部。
+1. clean - m clean 会删除此配置的所有输出和中间文件。此内容与 rm -rf out/ 相同。
+
+运行 m help 即可查看 m 提供的其他命令
+
+输入 m 之后开始第一次全部编译，漫长的等待，编译时间取决于你的电脑配置…主要是 cpu 和内存，建议内存 32G 走起，cpu 也别太烂
+
+
+编译成功之后，会有下面的输出
+![图片](./img_compile_android/success.jpeg)
+
+### error2：内存不够：
+ninja: build stopped: subcommand failed
+```
+[100% 1/1] out/soong/.bootstrap/bin/soong_build out/soong/build.ninja
+FAILED: out/soong/build.ninja
+out/soong/.bootstrap/bin/soong_build -t -l out/.module_paths/Android.bp.list -b out/soong -n out -d out/soong/build.ninja.d -globFile out/soong/.bootstrap/build-globs.ninja -o out/soong/build.ninja Android.bp
+Killed
+07:00:40 soong bootstrap failed with: exit status 1
+ninja: build stopped: subcommand failed.
+```
+1.内存不够：  
+参照问题：
+https://stackoverflow.com/questions/71984668/ninja-build-stopped-subcommand-failed   
+https://blog.csdn.net/Viewz/article/details/114388530  
+增加swap内存：
+https://blog.csdn.net/u012514113/article/details/130978113?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-130978113-blog-104921648.235%5Ev39%5Epc_relevant_3m_sort_dl_base1&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-130978113-blog-104921648.235%5Ev39%5Epc_relevant_3m_sort_dl_base1&utm_relevant_index=2  
+
+
+# 4. 刷机
+己编译的 UserDebug 固件用来 Debug 是非常方便的，不管是用来 Debug Framework 还是 App。  
+
+
+编译好之后下面开始刷机,依次执行下面的命令
+
+```shell
+adb reboot fastboot
+
+# 等待手机进入 fastboot 界面之后
+fastboot flashall -w
+
+# 刷机完成之后，执行 fastboot reboot 长期系统即可
+fastboot reboot
+```
+
+### error3：执行fastboot flashall -w报错
+错误信息：fastboot: error: ANDROID_PRODUCT_OUT not set  
+解决：~/.bashrc文件中添加环境变量  
+
+```shell
+export ANDROID_PRODUCT_OUT=/home/xxx...xxx/aosp/out/target/product/flame
+# /home/xxx...xxx/aosp/out/target/product/flame是目录编译完成后的Android系统所在的目录，其中包含”system.img,ramdisk.img,userdata.img“等
+```
+
+
+刷机截图如下
+![图片](./img_compile_android/flush_success.jpeg)
+之后手机会自动重启，然后进入主界面，至此，我们的代码下载-编译-刷机的这部分就结束了  
+自己编译的 AOSP 的 Launcher 比较丑，因为没有 Google 闭源的那些套件的加持，看上去还是很简陋的，自带的 App 非常少，而且基本上没怎么维护，给到手机厂商的就是这么一个东西
+
+![图片](./img_compile_android/screen.png)
+
+**如果在刷机的过程中遇到问题，可刷官方的刷机包拯救 ：**  
+https://developers.google.cn/android/images
+
+# 5. End
+本文主要是讲如何下载、编译、刷机，后续的代码导入、修改和编译模块、代码 Debug 等，会另起一篇文章来介绍
+
+
+
+---------------
