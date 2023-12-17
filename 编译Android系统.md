@@ -55,6 +55,16 @@ url = https://android.googlesource.com/platform/manifest
 ```
 url = git://mirrors.ustc.edu.cn/aosp/platform/manifest
 ```
+
+### error:解压后，可能会出现所有文件都modified了
+```shell
+repo forall -vc "git config core.fileMode false --global"
+```
+参考：https://stackoverflow.com/a/31187212
+
+
+
+
 ## 1.4 同步最新代码：  
 
 执行：
