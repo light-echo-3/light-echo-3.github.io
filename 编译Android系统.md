@@ -1,12 +1,16 @@
 
 参考文档：https://androidperformance.com/2021/10/26/build-android-12/#/2-2-%E4%B8%8B%E8%BD%BD%E7%89%B9%E5%AE%9A-Tag-%E7%9A%84%E4%BB%A3%E7%A0%81%E6%89%80%E5%AF%B9%E5%BA%94%E7%9A%84%E9%A9%B1%E5%8A%A8  
-编译目的：
-Debug Android系统源码
 
-手机：Google pixel 4
-ubuntu版本：23.10
-要编译的系统版本：android-13.0.0_r31
+编译代码好处：
+1. 可以刷真机，方便开发者进行本地 Debug，同时代码可以导入 Android Studio 进行 Debug
+可以编译 Userdebug 版本，可以 root 和 remount，方便对系统和 App 进行 Debug，Debug 模式下可  
+1. 以看到许多 User 版本上看不到的问题；同时由于可以看到更多的信息，也方便进行 App 竞品分析、App 行为分析
+1. 可以更方便地进行 Android 源代码的学习，本地版本可以打开很多系统级别的 Debug Log，也可以自己加 Log，或者自己修改流程
 
+编译环境  
+手机：Google pixel 4  
+ubuntu版本：23.10  
+要编译的系统版本：android-13.0.0_r31  
 
 # 1.源码下载
 官网：https://source.android.google.cn/source/downloading  
