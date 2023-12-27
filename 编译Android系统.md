@@ -84,6 +84,8 @@ repo sync -j4
 done
 ```
 
+ master 分支，支持的驱动程序： https://developers.google.cn/android/blobs-preview  
+
 ## 1.5 repo 将代码切到想要编译的版本的tag
 repo官方文档：https://source.android.com/docs/setup/create/repo?hl=zh-cn#help  
 查看支持pixel4的最新Tag：android-13.0.0_r31  
@@ -113,7 +115,7 @@ repo start android-13.0.0_r31 --all # 创建分支：android-13.0.0_r31
 
 ## 2.3 驱动提取
 下载的内容解压后，是两个 sh 文件。  
-将sh文件拷贝到在repo仓库根目录，然后执行sh。  
+将sh文件拷贝到在repo仓库（aosp）根目录，然后执行sh。  
 使用 D 来向下翻页，直到最后手动输入 I ACCEPT
 
 ```shell
