@@ -9,8 +9,8 @@ ubuntu版本：23.10
 
 
 # 1.源码下载
-官网：https://source.android.google.cn/source/downloading 
-科大 AOSP 镜像站点地址：https://mirrors.ustc.edu.cn/help/aosp.html 
+官网：https://source.android.google.cn/source/downloading  
+科大 AOSP 镜像站点地址：https://mirrors.ustc.edu.cn/help/aosp.html  
 不建议使用官网，最好使用国内镜像。
 
 
