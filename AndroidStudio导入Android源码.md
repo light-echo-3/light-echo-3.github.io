@@ -1,3 +1,4 @@
+github:https://github.com/light-echo-3/light-echo-3.github.io/blob/main/AndroidStudio%E5%AF%BC%E5%85%A5Android%E6%BA%90%E7%A0%81.md
 
 参考文档：  
 https://blog.csdn.net/xct841990555/article/details/119131460  
