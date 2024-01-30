@@ -154,3 +154,56 @@ sudo development/tools/idegen/idegen.sh
 
 
 ---------------
+# 5.删除所有git仓库
+
+
+1.删除git仓库脚本：
+
+```python
+import os
+import sys
+import shutil
+
+def delete_git_folders(folder_path):
+    try:
+        # 前序位置删除
+        folder_name = os.path.basename(folder_path)
+        if folder_name == ".git" and os.path.isdir(folder_path):
+            # 如果是.git文件夹，则删除整个文件夹
+            if os.path.islink(folder_path):
+                # 如果是符号链接，直接删除
+                os.unlink(folder_path)
+                print(f"Deleted-symlink: {folder_path}")
+            else:
+                print(f"Deleted-rmtree-begin: {folder_path}")
+                shutil.rmtree(folder_path)
+                print(f"Deleted-rmtree-end: {folder_path}")
+
+        # 获取文件夹中的所有文件和子文件夹
+        items = os.listdir(folder_path)
+        for item in items:
+            item_path = os.path.join(folder_path, item)
+            # 递归
+            if os.path.exists(item_path) and os.path.isdir(item_path):
+                # 如果是文件夹，则递归删除其中的.git文件夹
+                delete_git_folders(item_path)
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    # 检查是否提供了足够的命令行参数
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py /path/to/your/folder")
+        sys.exit(1)
+
+    # 获取命令行参数作为根文件夹路径
+    root_folder = sys.argv[1]
+
+    # 调用函数删除.git文件夹
+    delete_git_folders(root_folder)
+
+```
+
+2.android.ipr中删除元素节点“component name="VcsDirectoryMappings"”
+
