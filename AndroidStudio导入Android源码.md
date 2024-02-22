@@ -207,3 +207,12 @@ if __name__ == "__main__":
 
 2.android.ipr中删除元素节点“component name="VcsDirectoryMappings"”
 
+
+
+# 6.改成资源，避免每次indexing
+例如：
+```xml
+      <sourceFolder url="file://$MODULE_DIR$/developers" type="java-resource" />
+
+```
+
