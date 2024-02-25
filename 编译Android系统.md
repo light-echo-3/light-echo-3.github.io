@@ -260,7 +260,7 @@ adb reboot fastboot
 # 等待手机进入 fastboot 界面之后
 fastboot flashall -w
 
-# 刷机完成之后，执行 fastboot reboot 长期系统即可
+# 刷机完成之后，执行 fastboot reboot 重启系统即可
 fastboot reboot
 ```
 
