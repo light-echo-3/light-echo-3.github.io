@@ -142,6 +142,7 @@ repo start android-13.0.0_r31 --all # 创建分支：android-13.0.0_r31
 
 ## 3.1 设置编译环境
 参考：https://source.android.google.cn/setup/build/initializing
+- !!!虽然官方文档说可使用“Ubuntu 18.04 及更高版本”，但实践证明更高版本会有一些问题，建议直接使用“Ubuntu 18.04”
 
 Ubuntu 18.04 以上直接运行：
 
